@@ -1,0 +1,48 @@
+<!-- Vista para poder logearte en la aplicacion -->
+<ion-view view-title="Login">
+    <ion-content> 
+      <form name="loginForm" novalidate="" ng-submit="enter(loginForm)"> 
+        <div class="list list-inset">     
+            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.user.$invalid && loginForm.$submitted, 'no-errors' : loginForm.user.$valid && loginForm.$submitted}">
+              <input name="user" type="text" ng-model="user.user" placeholder="Nombre de usuario" minlength="3" maxlength="35" required>
+            </label>
+            <div class="error-container" ng-show="loginForm.user.$error && loginForm.$submitted" ng-messages="loginForm.user.$error">
+                <div class="error" ng-message="required">
+                  <i class="ion-information-circled"></i> El campo esta vacio.
+                </div>
+                <div class="error" ng-message="minlength">
+                  <i class="ion-information-circled"></i> Longitud minima 3 caracteres.
+                </div>
+            </div>
+
+            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.pass.$invalid && loginForm.$submitted, 'no-errors' : loginForm.pass.$valid && loginForm.$submitted}">
+              <input name="pass" type="password" ng-model="user.pass" placeholder="Password" minlength="6" maxlength="35" required>
+            </label>
+            <div class="error-container" ng-show="loginForm.pass.$error && loginForm.$submitted" ng-messages="loginForm.pass.$error">
+                <div class="error" ng-message="required">
+                  <i class="ion-information-circled"></i> El campo esta vacio.
+                </div>
+                <div class="error" ng-message="minlength">
+                  <i class="ion-information-circled"></i> Longitud minima 3 caracteres.
+                </div>
+            </div>
+        </div>
+
+        <ion-toggle ng-model="user.checked" ng-checked="item.checked" style="border: none; font-size: 14px;"> Recuerdame </ion-toggle>      
+        <div class="padding">             
+            <button class="button button-positive button-block" type="submit">LOGIN</button> 
+        </div>
+      </form>
+        <p class="text-center">
+            <a href="#/lostpassword">Has olvidado la Contraseña?</a>
+        </p>
+        <div class="passing text-center">
+          <span>- OR -</span>
+        </div>
+        <div class="padding">
+            <button class="button button-block" style="background-color: #55acee; color: #fff;">Iniciar sesión con Twitter</button>
+            <button class="button button-block button-positive" style="background-color: #3b5998; color: #fff;">Iniciar sesión con Facebook</button>
+            <button class="button button-block button-assertive" style="background-color: #da3d3o; color: #fff;">Iniciar sesión con Google+</button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,37 @@
+<ion-side-menus enable-menu-with-back-views="true">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ul class="list">
+        <a class="item item-avatar" style="height: 75px;">
+            <img src="img/pug.jpg">
+            <h2>{{ user.username }}</h2>
+            <p>34 puntos</p>
+        </a>
+        <a class="item item-icon-left menu-close" href="#">
+          <i class="icon ion-ios-game-controller-b"></i>
+          Juego
+        </a>
+        <a class="item item-icon-left menu-close" href="#/app/ranking">
+          <i class="icon ion-trophy"></i>
+          Ranking
+        </a>
+        <a class="item item-icon-left menu-close" href="#/app/conf">
+          <i class="icon ion-gear-b"></i>
+          Configuración
+        </a>
+        <a class="item item-icon-left menu-close" ng-click="logout()">
+          <i class="icon ion-android-exit"></i>
+          Cerrar Sesión
+        </a>
+    </ul>
+  </ion-side-menu>
+</ion-side-menus>
