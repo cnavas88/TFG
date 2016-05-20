@@ -1,0 +1,32 @@
+<!-- Modal view para la edicion del perfil en la configuracion del usuario -->
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <h1 class="title">Editar perfil</h1>
+        <button class="button button-clear button-primary" ng-click="editarPerfilClose()">Cerrar</button>
+    </ion-header-bar>
+    <ion-content> 
+      <div class="padding">
+        <form name="changePassForm" novalidate="" ng-submit="verifyPass(changePassForm)"> 
+          <div class="list list-inset">     
+              <label class="item item-input" ng-class="{ 'has-errors' : changePassForm.actapass.$invalid && changePassForm.$submitted, 'no-errors' : changePassForm.actapass.$valid && changePassForm.$submitted}">
+                <input name="actapass" type="password" ng-model="user.actapass" placeholder="Contraseña actual" minlength="6" maxlength="35" required ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
+              </label>
+              <div class="error-container" ng-show="changePassForm.actapass.$error && changePassForm.$submitted" ng-messages="changePassForm.actapass.$error">
+                  <div class="error" ng-message="required">
+                    <i class="ion-information-circled"></i> El campo esta vacio.
+                  </div>
+                  <div class="error" ng-message="minlength">
+                    <i class="ion-information-circled"></i> Longitud minima 6 caracteres.
+                  </div>
+                  <div class="error" ng-message="pattern">
+                    <i class="ion-information-circled"></i> La contraseña debe de contener Mayusculas, minusculas y numeros.
+                  </div>
+              </div>
+          </div>
+          <div class="padding">             
+              <button class="button button-assertive button-block" type="submit">Cambiar Password</button> 
+          </div>
+        </form>
+      </div>
+    </ion-content>
+</ion-modal-view>

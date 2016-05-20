@@ -1,6 +1,31 @@
 <!-- vista de la configuracion del usuario -->
 <ion-view view-title="Configuracion">
     <ion-content> 
-        <h1> Configuracion </h1>
+    	<div class="padding" style="text-align: center; padding-top: 18px;">
+    		<img src="data:image/jpg;base64,{{ user.picture }}" style="max-width: 110px;">
+    		<div style="position: relative; margin-top: -40px; margin-left: 70px;"><!-- upload() -->
+    			<a ng-click="changeImage()" style="cursor: pointer;"><img src="img/plusplus.png" style="max-width: 45px;"></a>
+    		</div>
+    	</div>
+        <div class="list">
+			<a class="item item-icon-left" ng-click="editarPerfil()">
+			    <i class="icon ion-person"></i>
+			    Editar perfil
+			</a>
+			<a class="item item-icon-left" ng-click="changePassword()">
+			    <i class="icon ion-unlocked"></i>
+			    Cambiar contraseña
+			</a>
+			<a class="item item-icon-left" href="#">
+			    <i class="icon ion-chatbubble-working"></i>
+			    Notificaciones y sonidos
+			</a>
+			<a class="item item-icon-left" href="#">
+			    <i class="icon ion-android-document"></i>
+			    Terminos del servicio
+			</a>
+		</div>
     </ion-content>
 </ion-view>
+
+

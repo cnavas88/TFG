@@ -7,6 +7,8 @@
 
 	/* Inicializamos la variables para ver si tenemos errores en la base de datos y de que tipo */
 	$error_msg = "";
+	/* Iniciamos la variable de role */
+	$role;
 
 	/* Primero cogemos las opciones de la encriptacion de la contraseña del usuario para ser guardada */
 	$saltOk = create_salt();
@@ -22,39 +24,31 @@
 	/* Encriptamos contraseña y borramos datos del JSON para dar seguridad */
 	$hash = password_hash($objUserRegister->password, PASSWORD_BCRYPT, $opciones);
 	$objUserRegister->password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 13);
+	$code;
 
-	/* Verificamos si ai un mail o un username igual en la base de datos */
-	/*$prep_stmt = "SELECT mail FROM user WHERE mail='".$objUserRegister->mail."' LIMIT 1";
-    $stmt = $mysqli->query($prep_stmt);
+	if( strcmp ($objUserRegister->code , "boss" ) == 0 ){
+		// Le damos al jefe un codigo totalmente aleatorio para que se lo de a los usuarios normales para que se registren como sus empleados
+		$set_code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+		for($i = 0; $i < 5; $i++){ $code .= $set_code[mt_rand(0, 51)]; }
+		$role = 1;
+	}else{
+		// REGISTRO DE USUARIO NORMAL
+		$code = $objUserRegister->bossCode;
+		$role = 2;
+	}
 
-    if ($stmt->num_rows == 1) {
-    	$error_msg = "=mail";
-    }*/
-    
-    /* Verificamos si existe o no este usuario */
-	/*$prep_stmt = "SELECT login FROM user WHERE login='".$objUserRegister->username."' LIMIT 1";
-    $stmt = $mysqli->query($prep_stmt);
-    if ($stmt->num_rows == 1) {
-    	$error_msg .= "=username";
+	/* Creamos la consulta */
+    $insert_stmt = "INSERT INTO user (login, mail, password, language, salt, id_role, code) VALUES('".$objUserRegister->username."','".$objUserRegister->mail."','".$hash."','es','".$saltOk."',".$role.",'".$code."');";
+    $stmt = $mysqli->prepare($insert_stmt);
+
+    /* Ejecutamos la consulta seleccionada */
+    if(!$stmt->execute()){
+    	echo "fail";
+    }else{
+    	$insertdates_stmt = "INSERT INTO datesUser (id_user, lastName, name) VALUES(".$mysqli->insert_id.",'".$objUserRegister->lastname."','".$objUserRegister->name."');";
+    	$mysqli->query($insertdates_stmt);
+    	echo "success";
     }
-    $stmt->close();*/
-
-    /*if($error_msg != ""){
-    	echo $error_msg;
-    }else{*/
-		/* Creamos la consulta */
-	    $insert_stmt = "INSERT INTO user (login, mail, password, language, salt) VALUES('".$objUserRegister->username."','".$objUserRegister->mail."','".$hash."','es','".$saltOk."');";
-	    $stmt = $mysqli->prepare($insert_stmt);
-
-	    /* Ejecutamos la consulta seleccionada */
-	    if(!$stmt->execute()){
-	    	echo "fail";
-	    }else{
-	    	$insertdates_stmt = "INSERT INTO datesUser (id_user, lastName, name) VALUES(".$mysqli->insert_id.",'".$objUserRegister->lastname."','".$objUserRegister->name."');";
-	    	$mysqli->query($insertdates_stmt);
-	    	echo "success";
-	    }
-    //}
 
     $stmt->close();
     /* Cerramos la conexion despues del ultimo acceso a la base de datos */

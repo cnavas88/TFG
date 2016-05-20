@@ -1,5 +1,8 @@
 <!-- Vista para poder logearte en la aplicacion -->
 <ion-view view-title="Login">
+    <ion-nav-bar class="bar-assertive">
+        
+    </ion-nav-bar>
     <ion-content> 
       <form name="loginForm" novalidate="" ng-submit="enter(loginForm)"> 
         <div class="list list-inset">     
@@ -27,22 +30,30 @@
                 </div>
             </div>
         </div>
-
-        <ion-toggle ng-model="user.checked" ng-checked="item.checked" style="border: none; font-size: 14px;"> Recuerdame </ion-toggle>      
+         <ion-toggle toggle-class="toggle-assertive" ng-model="user.checked" ng-checked="item.checked" style="font-size: 14px; border: none; margin-top: -3.5%;">
+          Recuérdame
+        </ion-toggle>
+        <!--<ion-toggle class="toggle-assertive" ng-model="user.checked" ng-checked="item.checked" style="border: none; font-size: 14px; margin-top: -3%;"> Recuérdame </ion-toggle>      -->
         <div class="padding">             
-            <button class="button button-positive button-block" type="submit">LOGIN</button> 
+            <button class="button button-assertive button-block" type="submit">Entrar</button> 
         </div>
       </form>
-        <p class="text-center">
-            <a href="#/lostpassword">Has olvidado la Contraseña?</a>
-        </p>
-        <div class="passing text-center">
-          <span>- OR -</span>
-        </div>
-        <div class="padding">
-            <button class="button button-block" style="background-color: #55acee; color: #fff;">Iniciar sesión con Twitter</button>
-            <button class="button button-block button-positive" style="background-color: #3b5998; color: #fff;">Iniciar sesión con Facebook</button>
-            <button class="button button-block button-assertive" style="background-color: #da3d3o; color: #fff;">Iniciar sesión con Google+</button>
-        </div>
+      <p class="text-center">
+          <a href="#/lostpassword">Has olvidado la Contraseña?</a>
+      </p>
+      <div class="padding text-center">
+        <span>- O entra con tus redes sociales -</span>
+      </div>
+      <div class="padding">
+          <button class="button button-block" ng-click="twitterLogin()" style="background-color: #55acee; color: #fff;">Iniciar sesión con Twitter</button>
+          <button class="button button-block" ng-click="facebookLogin()" style="background-color: #3b5998; color: #fff;">Iniciar sesión con Facebook</button>
+          <button class="button button-block button-assertive" ng-click="googleLogin()" style="background-color: #da3d3o; color: #fff;">Iniciar sesión con Google</button>
+      </div>
+      <div class="padding text-center" style="margin-top: -2%;">
+        <span>-  Aun no tienes cuenta  -</span>
+      </div>
+      <p class="text-center padding">
+        <a class="button button-block button-outline button-assertive" ng-click="register()"> Registrate </a>
+      </p>
     </ion-content>
 </ion-view>

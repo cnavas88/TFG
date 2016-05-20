@@ -3,6 +3,7 @@ html, body{
 	//font-family: ;
 }
 
+/* CSS del control de los errores */
 .error-container {
   margin: 5px 0;
 }
@@ -44,4 +45,20 @@ html, body{
 .msg-error {
     color:#F00;
     font-size:14px;
+}
+
+/* css de los hovers del sidemenu */
+
+.spin {
+    backface-visibility: hidden !important;
+    transform: translateZ(0px) rotate(0deg) scale(0) !important;
+    transition: all 0.3s ease-out 0s !important;
+}
+.fade {
+    backface-visibility: hidden !important;
+    opacity: 0;
+    transition: all 0.1s ease-out 0s !important;
+}
+.motion {
+    transition: all 0.5s ease-out 0s;
 }
