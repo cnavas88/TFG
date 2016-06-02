@@ -2,31 +2,43 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header bar-assertive">
         <h1 class="title">Editar perfil</h1>
-        <button class="button button-clear button-primary" ng-click="editarPerfilClose()">Cerrar</button>
+        <button class="button button-clear button-primary" ng-click="changeProfileClose()">Cerrar</button>
     </ion-header-bar>
     <ion-content> 
-      <div class="padding">
-        <form name="changePassForm" novalidate="" ng-submit="verifyPass(changePassForm)"> 
-          <div class="list list-inset">     
-              <label class="item item-input" ng-class="{ 'has-errors' : changePassForm.actapass.$invalid && changePassForm.$submitted, 'no-errors' : changePassForm.actapass.$valid && changePassForm.$submitted}">
-                <input name="actapass" type="password" ng-model="user.actapass" placeholder="Contraseña actual" minlength="6" maxlength="35" required ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
-              </label>
-              <div class="error-container" ng-show="changePassForm.actapass.$error && changePassForm.$submitted" ng-messages="changePassForm.actapass.$error">
-                  <div class="error" ng-message="required">
-                    <i class="ion-information-circled"></i> El campo esta vacio.
-                  </div>
-                  <div class="error" ng-message="minlength">
-                    <i class="ion-information-circled"></i> Longitud minima 6 caracteres.
-                  </div>
-                  <div class="error" ng-message="pattern">
-                    <i class="ion-information-circled"></i> La contraseña debe de contener Mayusculas, minusculas y numeros.
-                  </div>
-              </div>
-          </div>
-          <div class="padding">             
-              <button class="button button-assertive button-block" type="submit">Cambiar Password</button> 
-          </div>
+        <form name="editProfileForm" novalidate="" ng-submit="editProfile(editProfileForm)"> 
+          <div class="list">
+            <label class="item item-input" ng-class="{ 'has-errors' : editProfileForm.$submitted, 'no-errors' : editProfileForm.name.$valid && editProfileForm.$submitted}">
+              <input type="text" name="name" ng-model="user.name" placeholder="Nombre" minlength="2" maxlength="20">
+            </label>
+            <div class="error-container padding-left" ng-show="editProfileForm.name.$error && editProfileForm.$submitted" ng-messages="editProfileForm.name.$error">
+                <div class="error" ng-message="minlength">
+                  <i class="ion-information-circled"></i> Longitud minima 2 caracteres.
+                </div>
+            </div>
+          
+            <label class="item item-input" ng-class="{ 'has-errors' : editProfileForm.lastname.$invalid && editProfileForm.$submitted, 'no-errors' : editProfileForm.lastname.$valid && editProfileForm.$submitted}">
+              <input name="lastname" type="text" ng-model="user.lastname" placeholder="Apellidos" minlength="3" maxlength="35">
+            </label>
+            <div class="error-container padding-left" ng-show="editProfileForm.lastname.$error && editProfileForm.$submitted" ng-messages="editProfileForm.lastname.$error">
+                <div class="error" ng-message="minlength">
+                  <i class="ion-information-circled"></i> Longitud minima 3 caracteres.
+                </div>
+            </div>
+
+            <label class="item item-input" ng-class="{ 'has-errors' : editProfileForm.mail.$invalid && editProfileForm.$submitted, 'no-errors' : editProfileForm.mail.$valid && editProfileForm.$submitted}">
+              <input name="mail" type="email" ng-model="user.mail" placeholder="Email" maxlength="35" mail-confirm>
+            </label>
+            <div class="error-container padding-left" ng-show="editProfileForm.mail.$error && editProfileForm.$submitted" ng-messages="editProfileForm.mail.$error">
+                <div class="error" ng-message="email">
+                  <i class="ion-information-circled"></i> Tienes que poner un email valido.
+                </div>
+                <div class="error" ng-message="exists">
+                    <i class="ion-information-circled"></i> Este mail ya ha sido registrado.
+                </div>
+            </div>
+            <div class="padding">
+              <button class="button button-assertive button-block" type="submit">CAMBIAR PERFIL</button> 
+            </div>
         </form>
-      </div>
     </ion-content>
 </ion-modal-view>

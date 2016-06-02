@@ -5,15 +5,12 @@
       </div>
   </ion-nav-bar>
   <ion-content>
-        <!--<div class="padding">
-            Te estas registrando como empleado de: {{user.boss}}
-        </div>-->
         <form name="registerForm" novalidate="" ng-submit="register(registerForm)"> 
-          <div class="list list-inset">
+          <div class="list">
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.$submitted, 'no-errors' : registerForm.name.$valid && registerForm.$submitted}">
               <input type="text" name="name" ng-model="user.name" placeholder="Nombre" minlength="2" maxlength="20"  required>
             </label>
-            <div class="error-container" ng-show="registerForm.name.$error && registerForm.$submitted" ng-messages="registerForm.name.$error">
+            <div class="error-container padding-left" ng-show="registerForm.name.$error && registerForm.$submitted" ng-messages="registerForm.name.$error">
                 <div class="error" ng-message="required">
                   <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -25,7 +22,7 @@
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.lastname.$invalid && registerForm.$submitted, 'no-errors' : registerForm.lastname.$valid && registerForm.$submitted}">
               <input name="lastname" type="text" ng-model="user.lastname" placeholder="Apellidos" minlength="3" maxlength="35" required>
             </label>
-            <div class="error-container" ng-show="registerForm.lastname.$error && registerForm.$submitted" ng-messages="registerForm.lastname.$error">
+            <div class="error-container padding-left" ng-show="registerForm.lastname.$error && registerForm.$submitted" ng-messages="registerForm.lastname.$error">
                 <div class="error" ng-message="required">
                   <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -37,7 +34,7 @@
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.username.$invalid && registerForm.$submitted, 'no-errors' : registerForm.username.$valid && registerForm.$submitted}">
               <input name="username" type="text" ng-model="user.username" placeholder="Nombre de usuario" minlength="3" maxlength="35" username-confirm required>
             </label>
-            <div class="error-container" ng-show="registerForm.username.$error && registerForm.$submitted" ng-messages="registerForm.username.$error">
+            <div class="error-container padding-left" ng-show="registerForm.username.$error && registerForm.$submitted" ng-messages="registerForm.username.$error">
                 <div class="error" ng-message="required">
                   <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -52,7 +49,7 @@
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.mail.$invalid && registerForm.$submitted, 'no-errors' : registerForm.mail.$valid && registerForm.$submitted}">
               <input name="mail" type="email" ng-model="user.mail" placeholder="Email" maxlength="35" mail-confirm required>
             </label>
-            <div class="error-container" ng-show="registerForm.mail.$error && registerForm.$submitted" ng-messages="registerForm.mail.$error">
+            <div class="error-container padding-left" ng-show="registerForm.mail.$error && registerForm.$submitted" ng-messages="registerForm.mail.$error">
                 <div class="error" ng-message="required">
                   <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -65,9 +62,9 @@
             </div>
 
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.password.$invalid && registerForm.$submitted, 'no-errors' : registerForm.password.$valid && registerForm.$submitted}">
-              <input name="password" type="password" ng-model="user.password" placeholder="Password" minlength="6" maxlength="35" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required>
+              <input name="password" type="password" ng-model="user.password" placeholder="Nueva contraseña" minlength="6" maxlength="35" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required>
             </label>
-            <div class="error-container" ng-show="registerForm.password.$error && registerForm.$submitted" ng-messages="registerForm.password.$error">
+            <div class="error-container padding-left" ng-show="registerForm.password.$error && registerForm.$submitted" ng-messages="registerForm.password.$error">
                 <div class="error" ng-message="required">
                   <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -80,9 +77,9 @@
             </div>
 
             <label class="item item-input" ng-class="{ 'has-errors' : registerForm.repeatPass.$invalid && registerForm.$submitted, 'no-errors' : registerForm.repeatPass.$valid && registerForm.$submitted}">
-              <input name="repeatPass" type="password" ng-model="user.repeatPass" placeholder="Repite password" maxlength="35" required password-confirm match-target="user.password" >
+              <input name="repeatPass" type="password" ng-model="user.repeatPass" placeholder="Confirmar nueva contraseña" maxlength="35" required password-confirm match-target="user.password" >
             </label>
-            <div class="error-container" ng-show="registerForm.repeatPass.$error && registerForm.$submitted" ng-messages="registerForm.repeatPass.$error">
+            <div class="error-container padding-left" ng-show="registerForm.repeatPass.$error && registerForm.$submitted" ng-messages="registerForm.repeatPass.$error">
                 <div class="error" ng-message="required">
                     <i class="ion-information-circled"></i> El campo esta vacio.
                 </div>
@@ -90,11 +87,13 @@
                     <i class="ion-information-circled"></i> Los passwords no coinciden.
                 </div>
             </div>
-            <ion-toggle ng-model="user.checked" ng-checked="item.checked" style="border: none; margin-top: 10px; font-size: 14px;"> Acepta los terminos </ion-toggle>                   
-            <button class="button button-assertive button-block" type="submit">REGISTRATE</button>   
+            
+            <ion-toggle ng-model="user.checked" ng-checked="item.checked" style="border: none; margin-top: 10px; font-size: 14px;"> Acepta los terminos </ion-toggle>            
+            <div class="padding">       
+              <button class="button button-assertive button-block" type="submit">REGISTRATE</button>   
+            </div>
           </div>     
         </form> 
-
     <div class="padding">
         <button class="button button-block" style="background-color: #55acee; color: #fff;">Registrate con Twitter</button>
         <button class="button button-block button-positive" style="background-color: #3b5998; color: #fff;">Registrate con Facebook</button>

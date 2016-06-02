@@ -9,19 +9,21 @@
           <h5>Introduce el código de registro para saber a que afiliación correspondes.</h5>
         </div>
         <form name="codeForm" novalidate="" ng-submit="verifyCode(codeForm)"> 
-            <div class="list list-inset" style="margin-top: -1%;">
+            <div class="list " style="margin-top: -1%;">
                 <label class="item item-input" ng-class="{ 'has-errors' : codeForm.code.$invalid && codeForm.$submitted, 'no-errors' : codeForm.code.$valid && codeForm.$submitted}">
                 <input type="text" name="code" ng-model="verify.code" placeholder="Codigo de verificación" minlength="5" maxlength="5"  required>
                 </label>
-                <div class="error-container" ng-show="codeForm.code.$error && codeForm.$submitted" ng-messages="codeForm.code.$error">
+                <div class="error-container padding-left" ng-show="codeForm.code.$error && codeForm.$submitted" ng-messages="codeForm.code.$error">
                     <div class="error" ng-message="required">
                       <i class="ion-information-circled"></i> El campo esta vacio.
                     </div>
                     <div class="error" ng-message="minlength">
                       <i class="ion-information-circled"></i> El código no cumple las condiciones de longitud.
                     </div>
-                </div>            
-                <button class="button button-assertive button-block" type="submit">VERIFICAR CÓDIGO</button>   
+                </div> 
+                <div class="padding">           
+                    <button class="button button-assertive button-block" type="submit">VERIFICAR CÓDIGO</button>   
+                </div>
             </div>     
         </form> 
     </ion-content>

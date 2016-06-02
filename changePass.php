@@ -14,27 +14,33 @@
     if($stmt->num_rows == 1) {
     	foreach ($stmt as $row) {
     		$salt = $row[salt];
+    		$passa = $row[password];
     	}
 
+    	// Treuem les opciones per a cambiar el password y poder emcriptarlo
 		$opciones = [
 		    'cost' => 11,
 		    'salt' => $salt,
 		];  
 
-		// Encriptamos el password y machacamos la variable original
-		$hash = password_hash($objUserChangeUser->pass, PASSWORD_BCRYPT, $opciones);
+		$hashpass = password_hash($objUserChangeUser->pass, PASSWORD_BCRYPT, $opciones);
 		$objUserChangeUser->pass = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 13);
 
-		//if(strcmp ($hash , $password ) == 0){
-		// Nos guardamos el nuevo password y enviamos el resultado
-		$mysqli->query("UPDATE user SET password='".$hash."' WHERE login='".$objUserChangeUser->username."'");
-		$json = array( 'success' => "success"); 
-		/*}else{
-			$json = array( 'success' => "fail"); 
-		}*/
+    	if(strcmp($hashpass , $passa) == 0){
+			// Encriptamos el password y machacamos la variable original
+			$hash = password_hash($objUserChangeUser->newpass, PASSWORD_BCRYPT, $opciones);
+			$objUserChangeUser->newpass = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 13);
+
+			// Nos guardamos el nuevo password y enviamos el resultado
+			$mysqli->query("UPDATE user SET password='".$hash."' WHERE login='".$objUserChangeUser->username."'");
+			$json = array( 'success' => "success"); 
+    	}else{
+    		$json = array( 'success' => "noSame"); 
+    	}
     }else{
 		$json = array( 'success' => "fail"); 
     }
+
     // Cerrramos todas las conexiones de la base de datos
     $stmt->close();
     $mysqli->close();

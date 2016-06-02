@@ -1,0 +1,11 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <h1 class="title">Cambiar Idioma</h1>
+        <button class="button button-clear button-primary" ng-click="changeLangClose()">Cerrar</button>
+    </ion-header-bar>
+    <ion-content> 
+        <ion-radio ng-click="changeLangOK('es')"><span translate="langEs">Español</span></ion-radio>
+        <ion-radio ng-click="changeLangOK('en')"><span translate="langEn">Ingles</span></ion-radio>
+        <ion-radio ng-click="changeLangOK('de')"><span translate="langDe">Aleman</span></ion-radio>
+    </ion-content>
+</ion-modal-view>

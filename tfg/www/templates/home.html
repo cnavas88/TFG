@@ -1,6 +1,22 @@
 <!-- HOME -->
-<ion-view view-title="Home">
-    <ion-content class="padding"> 
-        <h1> ESTAMOS LOGEADOS COMO = {{user.username}}, con identificador {{user.id}} y mail {{ user.role }}</h1>
+<ion-view view-title="Bienvenido">
+    <ion-content class="padding" style="text-align: center;"> 
+    	<h4>{{user.level}}</h4>
+    	<img src="../img/default/escudo.png" >
+    	<div style="position: relative; top: -84px;"><span style="font-size: 2.5em; color: #ef473a;"> {{user.total}}% </span></div>
+    	<div style="position: relative; top: -25px;"><span style="font-size: 0.9em;"> COMPLETADO </span></div>
+    	<div style="border-bottom: 1px solid grey; height: 1px;"></div>
+    	<!-- Parte del codigo del empleado -->
+    	<div style="margin-top: 20px; margin-bottom: 20px;">
+    		<h4> {{ user.code }} </h4><br />
+    		<a href="" style="font-size: 1em;" ng-click="sabermas()"> Saber Más </a>
+    	</div>
+    	<div style="border-bottom: 1px solid grey; height: 1px;"></div>
+    	<!-- Parte del codigo del empleado -->
+    	<!--<div style="margin-top: 20px; margin-bottom: 20px;">
+    		<h4> Estadisticas: </h4><br />
+    		<div style="float: left;"><span> Temas completados: 5 </span></div>
+    		<div style="float: left;"><span> Fichas completadas: 5 </span></div>
+    	</div>-->
     </ion-content>
 </ion-view>

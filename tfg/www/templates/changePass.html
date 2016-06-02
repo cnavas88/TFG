@@ -5,13 +5,12 @@
         <button class="button button-clear button-primary" ng-click="changePasswordClose()">Cerrar</button>
     </ion-header-bar>
     <ion-content> 
-      <div class="padding">
-        <form name="changePassForm" novalidate="" ng-submit="verifyPass(changePassForm)"> 
-          <div class="list list-inset">     
+        <form name="changePassForm" novalidate="" ng-submit="verifyPass(changePassForm)">
+           <div class="list">     
               <label class="item item-input" ng-class="{ 'has-errors' : changePassForm.actapass.$invalid && changePassForm.$submitted, 'no-errors' : changePassForm.actapass.$valid && changePassForm.$submitted}">
                 <input name="actapass" type="password" ng-model="user.actapass" placeholder="Contraseña actual" minlength="6" maxlength="35" required ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
               </label>
-              <div class="error-container" ng-show="changePassForm.actapass.$error && changePassForm.$submitted" ng-messages="changePassForm.actapass.$error">
+              <div class="error-container padding-left" ng-show="changePassForm.actapass.$error && changePassForm.$submitted" ng-messages="changePassForm.actapass.$error">
                   <div class="error" ng-message="required">
                     <i class="ion-information-circled"></i> El campo esta vacio.
                   </div>
@@ -22,11 +21,10 @@
                     <i class="ion-information-circled"></i> La contraseña debe de contener Mayusculas, minusculas y numeros.
                   </div>
               </div>
-
               <label class="item item-input" ng-class="{ 'has-errors' : changePassForm.newpass.$invalid && changePassForm.$submitted, 'no-errors' : changePassForm.newpass.$valid && changePassForm.$submitted}">
                 <input name="newpass" type="password" ng-model="user.newpass" placeholder="Nueva contraseña" minlength="6" maxlength="35" required ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
               </label>
-              <div class="error-container" ng-show="changePassForm.newpass.$error && changePassForm.$submitted" ng-messages="changePassForm.newpass.$error">
+              <div class="error-container padding-left" ng-show="changePassForm.newpass.$error && changePassForm.$submitted" ng-messages="changePassForm.newpass.$error">
                   <div class="error" ng-message="required">
                     <i class="ion-information-circled"></i> El campo esta vacio.
                   </div>
@@ -39,9 +37,9 @@
               </div>
 
               <label class="item item-input" ng-class="{ 'has-errors' : changePassForm.newpassame.$invalid && changePassForm.$submitted, 'no-errors' : changePassForm.newpassame.$valid && changePassForm.$submitted}">
-                <input name="newpassame" type="password" ng-model="user.newpassame" placeholder="Repite password" maxlength="35" required password-confirm match-target="user.newpass" >
+                <input name="newpassame" type="password" ng-model="user.newpassame" placeholder="Confirmar nueva contraseña" maxlength="35" required password-confirm match-target="user.newpass" >
               </label>
-              <div class="error-container" ng-show="changePassForm.newpassame.$error && changePassForm.$submitted" ng-messages="changePassForm.newpassame.$error">
+              <div class="error-container padding-left" ng-show="changePassForm.newpassame.$error && changePassForm.$submitted" ng-messages="changePassForm.newpassame.$error">
                   <div class="error" ng-message="required">
                       <i class="ion-information-circled"></i> El campo esta vacio.
                   </div>
@@ -54,6 +52,6 @@
               <button class="button button-assertive button-block" type="submit">Cambiar Password</button> 
           </div>
         </form>
-      </div>
     </ion-content>
-</ion-modal-view>
+  </ion-modal-view>
+</ion-view>

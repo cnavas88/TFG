@@ -38,14 +38,14 @@
 	}
 
 	/* Creamos la consulta */
-    $insert_stmt = "INSERT INTO user (login, mail, password, language, salt, id_role, code) VALUES('".$objUserRegister->username."','".$objUserRegister->mail."','".$hash."','es','".$saltOk."',".$role.",'".$code."');";
+    $insert_stmt = "INSERT INTO user (login, mail, password, language, salt, id_role, code, level, code_locked) VALUES('".$objUserRegister->username."','".$objUserRegister->mail."','".$hash."','es','".$saltOk."',".$role.",'".$code."',0,1);";
     $stmt = $mysqli->prepare($insert_stmt);
 
     /* Ejecutamos la consulta seleccionada */
     if(!$stmt->execute()){
     	echo "fail";
     }else{
-    	$insertdates_stmt = "INSERT INTO datesUser (id_user, lastName, name) VALUES(".$mysqli->insert_id.",'".$objUserRegister->lastname."','".$objUserRegister->name."');";
+    	$insertdates_stmt = "INSERT INTO datesUser (id_user, lastName, name, total_finish) VALUES(".$mysqli->insert_id.",'".$objUserRegister->lastname."','".$objUserRegister->name."', 0);";
     	$mysqli->query($insertdates_stmt);
     	echo "success";
     }

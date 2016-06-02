@@ -8,7 +8,7 @@
 	$objUserLogin = json_decode(file_get_contents('php://input'));
 
 	/* Primero miramos si existe el usuario, sino existe mandamos error, en el caso que exista traemos el pass y el salt para comparar */
-	$result = "SELECT id_user, mail, password, salt, account_locked, id_role, code FROM user WHERE login='".$objUserLogin->user."'";
+	$result = "SELECT id_user, mail, password, language, salt, account_locked, id_role, code, level, code_locked FROM user WHERE login='".$objUserLogin->user."'";
     $stmt = $mysqli->query($result);
 
     if($stmt->num_rows == 1) {
@@ -21,6 +21,9 @@
     		$bloqueada = $row[account_locked];
     		$role = $row[id_role];
     		$code = $row[code];
+    		$lan = $row[language];
+    		$level = $row[level];
+    		$code_locked = $row[code_locked];
     	}
 
 
@@ -28,6 +31,7 @@
     	if ($bloqueada == 1) {
                 // La cuenta está bloqueada.
                 // TODO - Envía un correo electrónico al usuario que le informa que su cuenta está bloqueada.
+    			// Una vez se haya enviado este correo tendremos que borrar las filas de este usuario en la tabla login_attempts
                 //return false;
 				$json = array( 'success' => "bloqued");
         } else {
@@ -43,24 +47,31 @@
 				if(strcmp ($hash , $password ) == 0){
 					// Inicio de session con exito
 					// Sacamos el resto de datos significativos para enviar a la aplicacion, siempre enviando los minimos
-					$result = "SELECT name, picture, points FROM datesUser WHERE id_user='".$id_user."'";
+					$result = "SELECT name, picture, total_finish FROM datesUser WHERE id_user='".$id_user."'";
 				    $stmt = $mysqli->query($result);
 			    	foreach ($stmt as $row) {
 			    		$name = $row[name];
 			    		$picture = $row[picture];
-			    		$points = $row[points];
+			    		$total = $row[total_finish];
 			    	}
 			    	// Obtenemos la imagen del avatar para enviarla al dispositivo
 			    	$img = file_get_contents($picture);
 			    	$imdata = base64_encode($img);
 			    	
+			    	// Miramos el code_locked para saber si tenemos que pasar el codigo o no
+			    	if( $code_locked ){
+			    		$code = 0;
+			    	}
+
 					$json = array( 'success' => "success", 
 								   'id' => $id_user, 
 								   'mail' => $mail, 
 								   'picture' => $imdata,
-								   'points' => $points,
+								   'total' => $total,
 								   'role' => $role,
-								   'code' => $code	
+								   'code' => $code,
+								   'lan' => $lan,
+								   'level' => $level
 					);		
 				}else{
                     // Se mira cuantos intentos llebamos, si llebamos mas de 3 intentos, bloqueamos la cuenta.

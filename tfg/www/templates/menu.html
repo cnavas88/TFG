@@ -14,19 +14,23 @@
               <a class="item" style="height: 125px; border: none; background: url('img/material-graphite.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
                   <img src="data:image/jpg;base64,{{ user.picture }}" style="max-width: 60px; float: left;">
                   <div style="float: right;"> 
-                      <p style="color: white;">{{ user.points }} puntos</p>
+                      <p style="color: white;"><b>{{ user.level }}</b></p>
                   </div>
                   <div style="margin-top: 8px; position: absolute; bottom: 15px;">
                       <h2 style="color: white;"><b>{{ user.username }}</b></h2>
                   </div>
               </a>
-              <a class="item item-icon-left menu-close selectitem" href="#">
+              <a class="item item-icon-left menu-close selectitem" ng-if="user.role == 1" href="#/app/home">
+                <i class="icon ion-home"></i>
+                Inicio
+              </a>
+              <a class="item item-icon-left menu-close selectitem" ng-if="user.role == 1" href="#">
                 <i class="icon ion-ios-game-controller-b"></i>
                 Temas
               </a>
-              <a class="item item-icon-left menu-close selectitem" href="#/app/ranking">
+              <a class="item item-icon-left menu-close selectitem" ng-if="user.role == 1" href="#/app/ranking">
                 <i class="icon ion-trophy"></i>
-                Ranking
+                Estadisticas
               </a>
               <a class="item item-icon-left menu-close selectitem" href="#/app/conf">
                 <i class="icon ion-gear-b"></i>

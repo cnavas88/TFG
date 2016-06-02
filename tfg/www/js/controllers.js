@@ -1,3 +1,55 @@
+// En este JSON meteremos todas las palabras para traducir la aplicacion a los 3 idiomas pedidos
+var translations = {
+    "es": {
+        "titleRank": "ranking",
+        "titleConf": "Configuración",
+        "confOp1": "Editar perfil",
+        "confOp2": "Cambiar idioma",
+        "confOp3": "Cambiar contraseña",
+        "confOp4": "Notificaciones y sonidos",
+        "confOp5": "Terminos y servicios",
+        "langEs": "Español",
+        "langEn": "Ingles",
+        "langDe": "Aleman",
+        "fotoperfil": "Foto de perfil",
+        "galeria": "Galeria",
+        "camara": "Camara",
+        "cancel": "Cancelar"
+    },
+    "en": {
+        "titleRank": "Configufffffffffración",
+        "titleConf": "Settings",
+        "confOp1": "Edit profile",
+        "confOp2": "Change language",
+        "confOp3": "Change password",
+        "confOp4": "Notifications and sounds",
+        "confOp5": "Terms and services",
+        "langEs": "Spanish",
+        "langEn": "English",
+        "langDe": "Germany",
+        "fotoperfil": "Photo of avatar",
+        "galeria": "Galery",
+        "camara": "Camaera",
+        "cancel": "Cancel"
+    },
+    "de": {
+        "titleRank": "asdasdadasd",
+        "titleConf": "Einstellungen",
+        "confOp1": "Profil bearbeiten",
+        "confOp2": "Sprache ändern",
+        "confOp3": "Passwort ändern",
+        "confOp4": "Benachrichtigungen und Sounds",
+        "confOp5": "Begriffe und Dienstleistungen",
+        "langEs": "Espasdasañol",
+        "langEn": "Ingleasdasds",
+        "langDe": "Alemasdasdan",
+        "fotoperfil": "Foto asdasdade perfil",
+        "galeria": "Galesdasdria",
+        "camara": "Camaasdasdra",
+        "cancel": "Cancasdasdelar"
+    }
+}
+
 angular.module('starter.controllers', [])
 
 /* Controlador para la vista login */
@@ -113,7 +165,7 @@ angular.module('starter.controllers', [])
 })
 
 /* Controlador para la vista registro */
-.controller('registerController',function ($scope, $http, $state, toLoginRegister, alert, sesionesControl){
+.controller('registerController',function ($scope, $http, $state, toLoginRegister, alert, sesionesControl){ 
         /* Definimos un modelo usuario para el registro */
         $scope.user = {
             name: "",
@@ -124,8 +176,7 @@ angular.module('starter.controllers', [])
             repeatPass: "",
             code: "",
             bossCode: "",
-            checked: false/*,
-            boss: sesionesControl.get("boss") */
+            checked: false
         };  
 
         $scope.register = function(form) {
@@ -167,12 +218,6 @@ angular.module('starter.controllers', [])
         $scope.tologin = function(){
             toLoginRegister.toLogin();
         }; 
-
-        /*$scope.$watch(function(){
-            $scope.user = {
-                boss: sesionesControl.get("boss") 
-            };        
-        });*/
 })
 
 /* Directiva para confirmar que las contraseñas sean iguales */
@@ -260,8 +305,10 @@ angular.module('starter.controllers', [])
 }])
 
 /* Controlador del HOME, aqui mostraremos los datos que nos sean de interes */
-.controller('homeController',function ($scope){
-
+.controller('homeController',function ($scope, alert){
+      $scope.sabermas = function(){
+          alert.showAlert("Código de empleado", "Una vez llegamos al nivel experto, es decir, conseguimos terminar todos los niveles de la aplicación. Se nos activara un código, que nos data la posibilidad de hacer que nuestros empleados se registren en la aplicación y nos den su valoración.");
+      };
 })
 
 /* Controlador para el olvido de la contraseña */
@@ -292,21 +339,18 @@ angular.module('starter.controllers', [])
 
 })
 
-
 /* Controlador para la configuracion del usuario */
 /* el usuario solo podra configurar contraseña, foto y notificaciones TODO */
-.controller('confController', function ($scope, $ionicModal, $ionicPopup){//, $cordovaCamera
-      // Modal para el cambio de password
-      $ionicModal.fromTemplateUrl('templates/changePass.html', function(modal) {
-          $scope.modalChangePassword = modal;
-      }, {
-          scope: $scope,
-          animation: 'slide-in-up'
-      });
+.controller('confController', function ($scope, $ionicModal, $http, $ionicPopup, $translate, sesionesControl){//, $cordovaCamera
+      $scope.userconf = { 
+            language: "", 
+            id: "",
+            newlanguage: "" 
+      };
 
-      // Modal para la edicion del perfil del usuario
-      $ionicModal.fromTemplateUrl('templates/editarPerfil.html', function(modal) {
-          $scope.modalEditarPerfil = modal;
+      // Modal para cambiar el idioma de la app
+      $ionicModal.fromTemplateUrl('templates/changeLang.html', function(modal) {
+          $scope.modalChangeLang = modal;
       }, {
           scope: $scope,
           animation: 'slide-in-up'
@@ -314,7 +358,6 @@ angular.module('starter.controllers', [])
 
       // Funcion para poder cambiar la imagen del avatar, esta imagen se podra cambiar de 2 maneras distintas, por galeria o accediendo a la camara
       $scope.changeImage = function() {        
-             $scope.data = {}
              var myPopup = $ionicPopup.show({
                 template: '<div class="list" style="margin-top: -3%;"><a class="item item-icon-left" href="#"><i class="icon ion-image"></i>Galería</a><a class="item item-icon-left" href="#"><i class="icon ion-camera"></i>Cámara</a></div>',
                 title: 'Foto de perfil',
@@ -323,35 +366,47 @@ angular.module('starter.controllers', [])
                    text: 'Cancel'
                 }, ]
              });
-             myPopup.then(function(res) {
-                if (res) {
-                   if (res.userPassword == res.confirmPassword) {
-                      console.log('Password Is Ok');
-                   } else {
-                      console.log('Password not matched');
-                   }
-                } else {
-                   console.log('Enter password');
-                }
-             });
       };
 
-      $scope.editarPerfil = function() { 
-          $scope.modalEditarPerfil.show();
+      // Funcion que cambiara el idioma de la aplicacion
+      $scope.changeLangOK = function(language){
+          if( $scope.userconf.language != language ){
+              $scope.userconf.newlanguage = language;
+              return $http({
+                    method : "POST",
+                    url : "http://192.168.1.33/tfg/api_changeLanguage.php",
+                    header:{
+                        'Content-Type' : 'application/json'
+                    },
+                    data: $scope.userconf
+              }).then(function(response){
+                    if(response.data == "success"){
+                        sesionesControl.set("lan", language);
+                        $translate.use(language);
+                        $scope.changeLangClose();
+                    }else{
+                        alert("Error - No se ha cambiado el idioma.");
+                    }
+              },function(response) {
+                    alert("Error con la comunicacion en el servidor.");
+              }); 
+          }
       };
 
-      $scope.editarPerfilClose = function(){
-          $scope.modalEditarPerfil.hide();
+      $scope.changeLang = function(){
+          $scope.modalChangeLang.show();
       };
 
-      $scope.changePassword = function(){
-          $scope.modalChangePassword.show();
+      $scope.changeLangClose = function(){
+          $scope.modalChangeLang.hide();
       };
 
-      $scope.changePasswordClose = function(){
-          $scope.modalChangePassword.hide();
-      };
-
+      $scope.$watch(function(){
+          $scope.userconf = {
+              language: sesionesControl.get("lan"),
+              id: sesionesControl.get("id")
+          };        
+      });
 
       // Añadimos las opciones de la camara para poder acceder a ella
     /*  $scope.upload = function() {
@@ -377,50 +432,51 @@ angular.module('starter.controllers', [])
       }*/
 })
 
-/* Controlador del cambio de password */
-.controller('changePassController',function ($scope, $http, alert){
-      // Recogemos los datos
-      $scope.user = {
+// Controlador para cambiar el password
+.controller('changePassController', function ($scope, $state, authUsers, alert){
+      $scope.user = { 
           actapass: "",
           newpass: "",
           newpassame: "",
           username: ""
       };
 
-      $scope.verifyPass = function(form){
-          // Si el formulario es valido, comparamos el password actual que sea diferente al password nuevo, en el caso de que sea diferente enviamos a servidor
-          if(form.$valid) {
-              //comparamos actapass con newpass
-              if( $scope.user.actapass == $scope.user.newpass ){
-                  alert.showAlert("Cambio de password", "EL nuevo password tiene que ser diferente al antiguo.");
-              }else{
-                  return $http({
-                        method : "POST",
-                        url : "http://192.168.1.33/tfg/changePass.php",
-                        header:{
-                            'Content-Type' : 'application/json'
-                        },
-                        data: {"username": $scope.user.username, "pass": $scope.user.newpass} 
-                  }).then(function(response){
-                        var success = response.data['success'];
-                        switch(success){
-                            case "success": alert.showAlert("Cambio de password", "Password cambiado con exito.");
-                                            $state.go('app.home'); break;
-                            case "failed": alert.showAlert("Cambio de password", "El usuario y la contraseña no coinciden.");  break;
-                            default: alert.showAlert("Cambio de password", "Error en el login."); break;
-                        }
-                  },function(response) {
-                        alert.showAlert("Cambio de password", "Error con la comunicacion en el servidor.");
-                  }); 
-              }
-          }
-      }
+      $scope.changePasswordClose = function(){
+          $state.go('app.conf');
+      };
 
-      $scope.$watch(function(){
-          $scope.user = {
-              username: sesionesControl.get("username")
-          };        
-      });
+      $scope.verifyPass = function(form){
+          if(form.$valid){
+              if($scope.user.actapass != $scope.user.newpass){
+                  authUsers.changePass($scope.user);
+              }else{
+                  alert.showAlert("Cambiar Password", "El nuevo password tiene que ser diferente al antiguo.");
+              } 
+          }
+      };
+})
+
+// Controlador para cambiar los datos del perfil
+.controller('editProfileController', function ($scope, $state, authUsers, alert){
+      $scope.user = { 
+          name: "",
+          lastname: "",
+          mail: ""
+      };
+
+      $scope.changeProfileClose = function(){
+          $state.go('app.conf');
+      };
+
+      $scope.editProfile = function(form){
+          if(form.$valid){
+              if($scope.user.name != "" || $scope.user.lastname != "" || $scope.user.mail != ""){
+                  authUsers.changeProfile($scope.user);
+              }else{
+                  alert.showAlert("Editar perfil", "Todos los campos estan vacios.");
+              } 
+          }
+      };
 })
 
 /* Controlador del menu, aqui podremos sacar todos los datos que guardamos en localStorage 
@@ -431,25 +487,37 @@ angular.module('starter.controllers', [])
           username: "",
           id: "",
           picture: "",
-          points: "",
-          role: ""
+          total: "",
+          role: "",
+          language: "",
+          level: "",
+          code: ""
       };
 
       $scope.logout = function(){
           $scope.user = null;
           authUsers.logout();
-      }
+      };
 
       // Con la funcion watch lo que hacemos es observar cuando se produce un cambio en $scope.user, en el caso de que tengamos un cambio
       // hacemos lo correspondiente.
-      $scope.$watch(function(){
+      $scope.$watch(function(){ 
+          if(sesionesControl.get("code") == 0){
+              var msgCode = "Sin código de empleado";
+          }else{
+              var msgCode = sesionesControl.get("code");
+          }
+
           $scope.user = {
               username: sesionesControl.get("username"),
               id: sesionesControl.get("id"),
               picture: sesionesControl.get("picture"),
-              points: sesionesControl.get("points"),
-              role: sesionesControl.get("role")
-          };        
+              total: sesionesControl.get("total"),
+              role: sesionesControl.get("role"),
+              language: sesionesControl.get("lan"),
+              level: sesionesControl.get("level"),
+              code: msgCode
+          };      
       });
 })
 
@@ -523,22 +591,35 @@ angular.module('starter.controllers', [])
 })
 
 //factoria para loguear y desloguear usuarios en angularjs
-.factory("authUsers", function($http, $location, $state, $ionicHistory, sesionesControl, toLoginRegister, alert){
+.factory("authUsers", function($http, $location, $state, $ionicHistory, $translate, sesionesControl, toLoginRegister, alert){
     var cacheSession = function(username, response){
         sesionesControl.set("userLogin", true);
         sesionesControl.set("username", username);
         sesionesControl.set("id", response.data['id']);
         sesionesControl.set("picture", response.data['picture']);
-        sesionesControl.set("points", response.data['points']); 
+        sesionesControl.set("total", response.data['total']); 
         sesionesControl.set("role", response.data['role']); 
+        sesionesControl.set("code", response.data['code']);
+        sesionesControl.set("lan", response.data['lan']); 
+
+        if( response.data['level'] == 0 ){
+            sesionesControl.set("level", "Novato"); 
+        }else if( response.data['level'] == 1 ){
+            sesionesControl.set("level", "Avanzado"); 
+        }else if( response.data['level'] == 2 ){
+            sesionesControl.set("level", "Experto"); 
+        }
     }
     var unCacheSession = function(){
         sesionesControl.unset("userLogin");
         sesionesControl.unset("username");
         sesionesControl.unset("id");
         sesionesControl.unset("picture");
-        sesionesControl.unset("points");
+        sesionesControl.unset("total");
         sesionesControl.unset("role");
+        sesionesControl.unset("code");
+        sesionesControl.unset("lan");
+        sesionesControl.unset("level");
     }
  
     return {
@@ -556,8 +637,9 @@ angular.module('starter.controllers', [])
                     var success = response.data['success'];
                     switch(success){
                         case "success": //creamos la sesión con el usuario, identificador y mail del usuario
-                                        //cacheSession(user.user, response.data['id'], response.data['mail']);
                                         cacheSession(user.user, response);
+                                        // Traducimos al idioma correcto la app
+                                        $translate.use(response.data['lan']);
                                         //mandamos a la home
                                         $state.go('app.home');  
                                         break;
@@ -579,6 +661,53 @@ angular.module('starter.controllers', [])
         //función que comprueba si la sesión userLogin almacenada en localStorage existe
         isLoggedIn : function(){
             return sesionesControl.get("userLogin");
+        },
+        // Funcion para cambiar el password
+        changePass: function(user){
+              return $http({
+                    method : "POST",
+                    url : "http://192.168.1.33/tfg/changePass.php",
+                    header:{
+                        'Content-Type' : 'application/json'
+                    },
+                    data: { 'pass': user.actapass, 'newpass': user.newpass, 'username': sesionesControl.get("username") }
+              }).then(function(response){
+                    // Miramos success del JSOn devuelto para saber como tenemos que actuar
+                    var success = response.data['success'];
+                    switch(success){
+                        case "success": alert.showAlert("Cambiar password", "El Password se ha cambiado con exito.");
+                                        $state.go('app.conf');  
+                                        break;
+                        case "fail": alert.showAlert("Cambiar password", "El usuario no existe.");  break;
+                        case "noSame": alert.showAlert("Cambiar password", "La contraseña actual no es la correcta."); break;
+                        default: alert.showAlert("Cambiar password", "Error en el login."); break;
+                    }
+              },function(response) {
+                    alert.showAlert("Cambiar password", "Error con la comunicacion en el servidor.");
+              });
+        },
+        // Funcion para cambiar las opciones de perfil
+        changeProfile: function(user){
+              return $http({
+                    method : "POST",
+                    url : "http://192.168.1.33/tfg/changeProfile.php",
+                    header:{
+                        'Content-Type' : 'application/json'
+                    },
+                    data: { 'name': user.name, 'lastname': user.lastname, 'mail': user.mail ,'id': sesionesControl.get("id") }
+              }).then(function(response){
+                    // Miramos success del JSOn devuelto para saber como tenemos que actuar
+                    var success = response.data['success'];
+                    switch(success){
+                        case "success": alert.showAlert("Editar perfil", "Los datos se han cambiado con exito.");
+                                        $state.go('app.conf');  
+                                        break;
+                        case "fail": alert.showAlert("Editar perfil", "Error al cambiar los datos.");  break;
+                        default: alert.showAlert("Editar perfil", "Error al cambiar los datos."); break;
+                    }
+              },function(response) {
+                    alert.showAlert("Editar perfil", "Error con la comunicacion en el servidor.");
+              });
         }
     }
 });

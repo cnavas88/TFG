@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngCordovaOauth'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngCordovaOauth', 'pascalprecht.translate', 'ngCordova']) /* , 'ionic-datepicker' */
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -14,7 +14,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngCord
         if (window.cordova && window.cordova.plugins.Keyboard) {
           cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
           cordova.plugins.Keyboard.disableScroll(true);
-
         }
         if (window.StatusBar) {
           // org.apache.cordova.statusbar required
@@ -23,7 +22,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngCord
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider/*, ionicDatePickerProvider*/) { 
+  // Configuramos el datepicker
+  /*var datePickerObj = {
+    inputDate: new Date(),
+    setLabel: 'Set',
+    todayLabel: 'Today',
+    closeLabel: 'Close',
+    mondayFirst: false,
+    weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+    monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    templateType: 'popup',
+    from: new Date(2012, 8, 1),
+    to: new Date(2018, 8, 1),
+    showTodayButton: true,
+    dateFormat: 'dd MMMM yyyy',
+    closeOnSelect: false,
+    disableWeekdays: [6]
+  };
+  ionicDatePickerProvider.configDatePicker(datePickerObj);*/
+
+  // Recorremos todo para traducirlo, en el cambio de idioma
+  for(lang in translations){
+    $translateProvider.translations(lang, translations[lang]);
+  }
+  // Elegimos el idioma con el que vendra la aplicacion por defecto
+  $translateProvider.preferredLanguage('en');
+
   $stateProvider
 
   .state('main', {
@@ -89,6 +114,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'ngCord
     controller: 'changePassController'
   })
 
+  .state('changeProfile', {
+    url: '/changeProfile',
+    templateUrl: 'templates/editarPerfil.html',
+    controller: 'editProfileController'
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main');
 });

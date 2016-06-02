@@ -1,5 +1,5 @@
 <!-- vista de la configuracion del usuario -->
-<ion-view view-title="Configuracion">
+<ion-view view-title="{{ 'titleConf' | translate }}">
     <ion-content> 
     	<div class="padding" style="text-align: center; padding-top: 18px;">
     		<img src="data:image/jpg;base64,{{ user.picture }}" style="max-width: 110px;">
@@ -8,22 +8,26 @@
     		</div>
     	</div>
         <div class="list">
-			<a class="item item-icon-left" ng-click="editarPerfil()">
+			<a class="item item-icon-left" href="#/changeProfile">
 			    <i class="icon ion-person"></i>
-			    Editar perfil
+			    <p translate="confOp1">Editar perfil</p>
 			</a>
-			<a class="item item-icon-left" ng-click="changePassword()">
+			<a class="item item-icon-left" ng-click="changeLang()">
+			    <i class="icon ion-chatbox-working"></i>
+			    <p translate="confOp2">Cambiar idioma</p>
+			</a>
+			<a class="item item-icon-left" href="#/changePass">
 			    <i class="icon ion-unlocked"></i>
-			    Cambiar contraseña
+			    <p translate="confOp3">Cambiar contraseña</p>
 			</a>
-			<a class="item item-icon-left" href="#">
+			<!--<a class="item item-icon-left" href="#">
 			    <i class="icon ion-chatbubble-working"></i>
-			    Notificaciones y sonidos
+			    <p translate="confOp4">Notificaciones y sonidos</p>
 			</a>
 			<a class="item item-icon-left" href="#">
 			    <i class="icon ion-android-document"></i>
-			    Terminos del servicio
-			</a>
+			    <p translate="confOp5">Terminos del servicio</p>
+			</a>-->
 		</div>
     </ion-content>
 </ion-view>
